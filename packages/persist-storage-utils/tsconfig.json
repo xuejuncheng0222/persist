@@ -1,0 +1,23 @@
+{
+  "include": ["src/**/*.ts", "index.ts", "rollup.config.ts"],
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    // "declaration": true,
+    // "declarationDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
