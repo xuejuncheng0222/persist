@@ -18,6 +18,10 @@
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin typescript --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xuejuncheng0222/persist/tree/main/packages/persist-storage-utils"
+  },
   "keywords": [
     "storage",
     "utils"

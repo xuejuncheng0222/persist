@@ -35,10 +35,10 @@ class StorageTool {
   /**
    * @description 设置缓存
    * @param {string} key 缓存键
-   * @param {*} value 缓存值
-   * @param expire
+   * @param {T} value 缓存值
+   * @param {number | null} expire 过期时间，默认为配置中的默认缓存时间
    */
-  set(key: string, value: any, expire: number | null = this.options.DEFAULT_CACHE_TIME) {
+  set<T>(key: string, value: T, expire: number | null = this.options.DEFAULT_CACHE_TIME) {
     const stringData = JSON.stringify({
       value,
       expire: expire !== null ? new Date().getTime() + expire * 1000 : null,
@@ -49,9 +49,10 @@ class StorageTool {
   /**
    * 读取缓存
    * @param {string} key 缓存键
-   * @param {*=} def 默认值
+   * @param {T} def 默认值
+   * @returns {T | null} 返回缓存值或默认值
    */
-  get(key: string, def: any = null) {
+  get<T>(key: string, def: T | null = null): T | null {
     const item = this.options.storage.getItem(this.getKey(key))
     if (item) {
       try {
@@ -59,10 +60,11 @@ class StorageTool {
         const { value, expire } = data
         // 在有效期内直接返回
         if (expire === null || expire >= Date.now()) {
-          return value
+          return value as T
         }
         this.remove(key)
       } catch (e) {
+        console.error(e)
         return def
       }
     }
@@ -88,12 +90,12 @@ class StorageTool {
   /**
    * 设置cookie
    * @param {string} name cookie 名称
-   * @param {*} value cookie 值
-   * @param {number=} expire 过期时间
-   * 如果过期时间为设置，默认关闭浏览器自动删除
+   * @param {T} value cookie 值
+   * @param {number | null} expire 过期时间
+   * 如果过期时间未设置，默认关闭浏览器自动删除
    * @example
    */
-  setCookie(name: string, value: any, expire: number | null = this.options.DEFAULT_CACHE_TIME) {
+  setCookie<T>(name: string, value: T, expire: number | null = this.options.DEFAULT_CACHE_TIME) {
     document.cookie = `${this.getKey(name)}=${value}; Max-Age=${expire}`
   }
 
