@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import {  createStorage } from '@persist/storage-utils'
+
+const storage = createStorage({
+  prefixKey: 'persist-test-app',
+  storage: sessionStorage,
+})
+
+
+
+storage.set('test', 'test')
+
+
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
+
 </script>
 
 <template>
