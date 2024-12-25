@@ -10,7 +10,6 @@ interface OtherOptions {
   DEFAULT_CACHE_TIME?: number
 }
 
-
 /** 默认配置 */
 const defaultOptions: Required<StorageConfig> = {
   storage: localStorage,
@@ -23,17 +22,15 @@ const defaultOptions: Required<StorageConfig> = {
  * @param options {StorageConfig} 配置
  */
 class StorageTool {
-  private options: Required<StorageConfig>;
+  private options: Required<StorageConfig>
 
   constructor(options?: StorageConfig) {
     this.options = { ...defaultOptions, ...options }
   }
 
-
   private getKey(key: string) {
     return `${this.options.prefixKey}${key}`.toUpperCase()
   }
-
 
   /**
    * @description 设置缓存
@@ -129,15 +126,12 @@ class StorageTool {
   clearCookie(): void {
     const keys = document.cookie.match(/[^ =;]+(?==)/g)
     if (keys) {
-      for (let i = keys.length; i--;) {
+      for (let i = keys.length; i--; ) {
         document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`
       }
     }
   }
 }
-
-
-
 
 /**
  * 创建缓存实例
