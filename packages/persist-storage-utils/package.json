@@ -1,5 +1,5 @@
 {
-  "name": "@persist/storage-utils",
+  "name": "persist-storage-utils",
   "version": "1.0.0",
   "private": false,
   "main": "dist/index.js",
