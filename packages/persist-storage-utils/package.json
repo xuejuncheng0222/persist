@@ -18,10 +18,13 @@
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin typescript --watch"
   },
-  "keywords": [],
+  "keywords": [
+    "storage",
+    "utils"
+  ],
   "author": "xuejuncheng",
   "license": "ISC",
-  "description": "",
+  "description": "前端浏览器存储工具",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",

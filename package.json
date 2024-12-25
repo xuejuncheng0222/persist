@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "pnpm --filter persist-test-app",
-    "storage": "pnpm --filter @persist/storage-utils"
+    "storage": "pnpm --filter @persist/storage-utils",
+    "publish": "pnpm --filter @persist/storage-utils publish"
   },
   "author": "xuejuncheng",
   "license": "ISC",
