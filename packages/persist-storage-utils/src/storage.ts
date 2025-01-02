@@ -36,12 +36,18 @@ class StorageTool {
    * @description 设置缓存
    * @param {string} key 缓存键
    * @param {T} value 缓存值
-   * @param {number | null} expire 过期时间，默认为配置中的默认缓存时间
+   * @param {number | null | Date} expire 过期时间 单位秒，不传则默认为配置中的默认缓存时间，配置未设置为默认的 7 天
    */
-  set<T>(key: string, value: T, expire: number | null = this.options.DEFAULT_CACHE_TIME) {
+  set<T>(key: string, value: T, expire: number | null | Date = this.options.DEFAULT_CACHE_TIME) {
+    let expireTime: number | null = null
+    if (expire instanceof Date) {
+      expireTime = expire.getTime()
+    } else if (typeof expire === 'number') {
+      expireTime = new Date().getTime() + expire * 1000
+    }
     const stringData = JSON.stringify({
       value,
-      expire: expire !== null ? new Date().getTime() + expire * 1000 : null,
+      expire: expireTime,
     })
     this.options.storage.setItem(this.getKey(key), stringData)
   }
@@ -138,7 +144,7 @@ class StorageTool {
 /**
  * 创建缓存实例
  * @param options {StorageConfig} 配置
- * @returns {Storage} 缓存实例
+ * @returns {StorageTool} 缓存实例
  * @example
  * import { createStorage } from 'persist-storage-utils'
  * const storage = createStorage({ prefixKey: 'test-' })
@@ -151,6 +157,6 @@ class StorageTool {
  * storage.removeCookie('test')
  * storage.clearCookie()
  */
-export function createStorage(options?: StorageConfig) {
+export function createStorage(options?: StorageConfig): StorageTool {
   return new StorageTool(options)
 }
