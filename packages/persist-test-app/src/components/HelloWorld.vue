@@ -1,40 +1,62 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { createStorage } from '@persist/storage-utils'
-
+import { ref } from 'vue'
 const storage = createStorage({
   prefixKey: 'persist-test-app',
   storage: sessionStorage,
 })
 
-storage.set('test', 'test')
-
+const inputValue = ref('')
+const storageValue = ref<string | null>(null)
 defineProps<{ msg: string }>()
 
-const count = ref(0)
+const setStorage = () => {
+  storage.set('test', inputValue.value, 1000 * 60)
+}
+
+const getStorage = () => {
+  storageValue.value = storage.get('test', '这是默认值')
+}
+
+const removeStorage = () => {
+  storage.remove('test')
+}
+
+const clearStorage = () => {
+  storage.clear()
+}
+
+const setCookie = () => {
+  storage.setCookie('test', 'test', 1000 * 60)
+}
+
+const getCookie = () => {
+  storage.getCookie('test')
+}
+
+const removeCookie = () => {
+  storage.removeCookie('test')
+}
+
+const clearCookie = () => {
+  storage.clearCookie()
+}
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+  <input type="text" v-model="inputValue" />
+  <div>{{ storageValue }}</div>
+  <div>
+    <button @click="setStorage">setStorage</button>
+    <button @click="getStorage">getStorage</button>
+    <button @click="removeStorage">removeStorage</button>
+    <button @click="clearStorage">clearStorage</button>
+    <button @click="setCookie">setCookie</button>
+    <button @click="getCookie">getCookie</button>
+    <button @click="removeCookie">removeCookie</button>
+    <button @click="clearCookie">clearCookie</button>
   </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite
-    starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support" target="_blank">Vue Docs Scaling up Guide</a>.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
 <style scoped>
