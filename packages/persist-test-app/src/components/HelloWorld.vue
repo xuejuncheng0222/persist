@@ -1,10 +1,37 @@
 <script setup lang="ts">
-import { createStorage } from '@persist/storage-utils'
 import { ref } from 'vue'
+import { createStorage, createIndexedDB } from 'persist-storage-utils'
+
 const storage = createStorage({
   prefixKey: 'persist-test-app',
   storage: sessionStorage,
 })
+console.log('加载')
+
+const init = async () => {
+  const db = createIndexedDB({
+    name: 'myDatabase',
+    version: 1,
+    stores: {
+      users: 'id',
+    },
+  })
+  console.log('开始')
+
+  await db.ready()
+
+  console.log('结束')
+
+  // 添加数据
+  // await db.add('users', { id: 1, name: 'John', age: 25 })
+
+  const data = await db.get('users', 100)
+  console.log('获取数据', data)
+
+  await db.update('users', { id: 100, name: 'xuejuncheng', age: 25 })
+}
+
+init()
 
 const inputValue = ref('')
 const storageValue = ref<string | null>(null)
